@@ -1,0 +1,87 @@
+body {
+  background-image: url("http://pavbca.com/walldb/original/e/f/1/259419.jpg");
+  background-size: contain;
+}
+
+h1 {
+  color: #FFF;
+  font-size:40px;
+}
+
+p {
+  color: #FFF;
+  font-size:20px;
+}
+
+h2 {
+  color: #FFF;
+  font-size:40px;
+}
+
+h3 {
+  color: #FFF;
+  font-size:40px;
+}
+
+h4 {
+  color: #FFF;
+  font-size:40px;
+}
+
+h5 {
+  color: #FFF;
+  font-size:40px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+ol {
+  color: #FFF;
+}
+
+.what-is-it-about {
+  width: 300px;
+}
+
+.who-is-it-for {
+  width: 300px;
+}
+
+.platforms-available-on {
+  width: 300px;
+}
+
+.is-it-worth-buying {
+  width: 300px;
+}
+
+div {
+  color: #FFF;
+  font-size:20px;
+  background-color: black;
+  width: 300px;
+  border: 5px solid white;
+  padding: 20px;
+}
