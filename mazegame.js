@@ -1,164 +1,74 @@
-function Position(x, y) {
-  this.x = x;
-  this.y = y;
+var canvas = $('#GameBoardCanvas');
+//The game board 1 = walls, 0 = free space, and -1 = the goal
+var board = [
+    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [ 1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [ 0, 0, 0, 0, 1, 1, 1, 0, 1, 0],
+    [ 0, 1, 1, 0, 0, 0, 1, 0, 1, 0],
+    [ 0, 0, 1, 1, 1, 1, 1, 0, 1, 0],
+    [ 1, 0, 1, 0, 0, 0, 1, 0, 1, 0],
+    [ 1, 0, 1, 0, 1, 0, 1, 0, 0, 0],
+    [ 1, 0, 1, 0, 1, 0, 0, 1, 1, 0],
+    [-1, 0, 1, 0, 1, 1, 0, 0, 0, 0]
+];
+var player = {
+    x: 0,
+    y: 0
+};
+
+//Draw the game board
+function draw(){
+    var width = canvas.width();
+    var blockSize = width/board.length;
+    var ctx = canvas[0].getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, width, width);
+    ctx.fillStyle="white";
+    //Loop through the board array drawing the walls and the goal
+    for(var y = 0; y < board.length; y++){
+        for(var x = 0; x < board[y].length; x++){
+            //Draw a wall
+            if(board[y][x] === 1){
+                ctx.fillRect(x*blockSize, y*blockSize, blockSize, blockSize);
+            }
+            //Draw the goal
+            else if(board[y][x] === -1){
+                ctx.beginPath();
+                ctx.lineWidth = 5;
+                ctx.strokeStyle = "gold";
+                ctx.moveTo(x*blockSize, y*blockSize);
+                ctx.lineTo((x+1)*blockSize, (y+1)*blockSize);
+                ctx.moveTo(x*blockSize, (y+1)*blockSize);
+                ctx.lineTo((x+1)*blockSize, y*blockSize);
+                ctx.stroke();
+            }
+        }
+    }
+    //Draw the player
+    ctx.beginPath();
+    var half = blockSize/2;
+    ctx.fillStyle = "blue";
+    ctx.arc(player.x*blockSize+half, player.y*blockSize+half, half, 0, 2*Math.PI);
+    ctx.fill();
 }
 
-Position.prototype.toString = function() {
-  return this.x + ":" + this.y;
-};
-
-function Mazing() {
-  // bind to HTML elements
-  this.mazeContainer = document.getElementById("maze");
-  this.mazeOutputDiv = document.getElementById("maze_output");
-  this.mazeMessage   = document.getElementById("maze_message");
-  this.mazeScore     = document.getElementById("maze_score");
-  this.heroScore     = this.mazeContainer.getAttribute("data-steps") - 2;
-
-  this.maze = [];
-  this.heroPos = {};
-  this.heroHasKey = false;
-  this.childMode = false;
-
-  for(i=0; i < this.mazeContainer.children.length; i++) {
-    for(j=0; j < this.mazeContainer.children[i].children.length; j++) {
-      var el =  this.mazeContainer.children[i].children[j];
-      this.maze[new Position(i, j)] = el;
-      if(el.classList.contains("entrance")) {
-        // place hero at entrance
-        this.heroPos = new Position(i, j);
-        this.maze[this.heroPos].classList.add("hero");
-      }
-    }
-  }
-
-  this.mazeOutputDiv.style.width = this.mazeContainer.scrollWidth + "px";
-  this.setMessage("first find the key");
-
-  // activate control keys
-  this.keyPressHandler = this.mazeKeyPressHandler.bind(this);
-  document.addEventListener("keydown", this.keyPressHandler, false);
+//Check to see if the new space is inside the board and not a wall
+function canMove(x, y){
+    return (y>=0) && (y<board.length) && (x >= 0) && (x < board[y].length) && (board[y][x] != 1);
 }
 
-Mazing.prototype.setMessage = function(text) {
-  this.mazeMessage.innerHTML = text;
-  this.mazeScore.innerHTML = this.heroScore;
-};
+$(document).keyup(function(e){
+    if((e.which == 38) && canMove(player.x, player.y-1))//Up arrow
+        player.y--;
+    else if((e.which == 40) && canMove(player.x, player.y+1)) // down arrow
+        player.y++;
+    else if((e.which == 37) && canMove(player.x-1, player.y))
+        player.x--;
+    else if((e.which == 39) && canMove(player.x+1, player.y))
+        player.x++;
+    draw();
+    e.preventDefault();
+});
 
-Mazing.prototype.heroTakeTreasure = function() {
-  this.maze[this.heroPos].classList.remove("nubbin");
-  this.heroScore += 10;
-  this.setMessage("yay, treasure!");
-};
-
-Mazing.prototype.heroTakeKey = function() {
-  this.maze[this.heroPos].classList.remove("key");
-  this.heroHasKey = true;
-  this.heroScore += 20;
-  this.mazeScore.classList.add("has-key");
-  this.setMessage("you have the key!");
-};
-
-Mazing.prototype.gameOver = function(text) {
-  // de-activate control keys
-  document.removeEventListener("keydown", this.keyPressHandler, false);
-  this.setMessage(text);
-  this.mazeContainer.classList.add("finished");
-};
-
-Mazing.prototype.heroWins = function() {
-  this.mazeScore.classList.remove("has-key");
-  this.maze[this.heroPos].classList.remove("door");
-  this.heroScore += 50;
-  this.gameOver("you finished !!!");
-};
-
-Mazing.prototype.tryMoveHero = function(pos) {
-  var nextStep = this.maze[pos].className;
-
-  // before moving
-  if(nextStep.match(/sentinel/)) {
-    this.heroScore = Math.max(this.heroScore - 5, 0);
-    if(!this.childMode && this.heroScore <= 0) {
-      this.gameOver("sorry, you didn't make it");
-    } else {
-      this.setMessage("ow, that hurt!");
-    }
-    return;
-  }
-  if(nextStep.match(/wall/)) {
-    return;
-  }
-  if(nextStep.match(/exit/)) {
-    if(this.heroHasKey) {
-      this.heroWins();
-    } else {
-      this.setMessage("you need a key to unlock the door");
-      return;
-    }
-  }
-
-  // move hero one step
-  this.maze[this.heroPos].classList.remove("hero");
-  this.maze[pos].classList.add("hero");
-  this.heroPos = pos;
-
-  // after moving
-  if(nextStep.match(/nubbin/)) {
-    this.heroTakeTreasure();
-    return;
-  }
-  if(nextStep.match(/key/)) {
-    this.heroTakeKey();
-    return;
-  }
-  if(nextStep.match(/exit/)) {
-    return;
-  }
-  if(this.heroScore >= 1) {
-    if(!this.childMode) {
-      this.heroScore--;
-    }
-    if(!this.childMode && this.heroScore <= 0) {
-      this.gameOver("sorry, you didn't make it");
-    } else {
-      this.setMessage("...");
-    }
-  }
-};
-
-Mazing.prototype.mazeKeyPressHandler = function(e) {
-  var tryPos = new Position(this.heroPos.x, this.heroPos.y);
-  switch(e.keyCode)
-  {
-    case 37: // left
-      this.mazeContainer.classList.remove("face-right");
-      tryPos.y--;
-      break;
-
-    case 38: // up
-      tryPos.x--;
-      break;
-
-    case 39: // right
-      this.mazeContainer.classList.add("face-right");
-      tryPos.y++;
-      break;
-
-    case 40: // down
-      tryPos.x++;
-      break;
-
-    default:
-      return;
-
-  }
-  this.tryMoveHero(tryPos);
-  e.preventDefault();
-};
-
-Mazing.prototype.setChildMode = function() {
-  this.childMode = true;
-  this.heroScore = 0;
-  this.setMessage("collect all the treasure");
-};
+draw();
