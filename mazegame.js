@@ -1,6 +1,6 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-//The game board 1 = walls, 0 = free space, -1 = the goal, 2 = key
+//The game board 1 = walls, 0 = free space, -1 = the goal
 var board = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -19,6 +19,7 @@ var player = {
 };
 var width = canvas.width;
 var blockSize = width / board.length;
+document.addEventListener("keydown",keyDownHandler);
 
 function drawWall(x, y) {
   ctx.beginPath();
@@ -35,6 +36,14 @@ function drawPlayer(){
   ctx.fillStyle = "blue";
   ctx.fill();
   ctx.closePath;
+}
+
+function canMove(x, y){
+  
+}
+
+function keyDownHandler(e) {
+  
 }
 
 function drawGoal(x, y){
