@@ -56,8 +56,6 @@ function draw() {
         drawWall(x, y);
       } else if (board[y][x] == -1) {
         drawGoal(x, y);
-      } else if (board[y][x] == 2) {
-        //draw Key
       }
     }
   }
