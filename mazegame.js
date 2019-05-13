@@ -24,7 +24,7 @@ document.addEventListener("keydown",keyDownHandler);
 function drawWall(x, y) {
   ctx.beginPath();
   ctx.rect(x * blockSize, y * blockSize, blockSize, blockSize);
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "blue";
   ctx.fill();
   ctx.closePath();
 }
@@ -58,7 +58,7 @@ function keyDownHandler(e) {
 function drawGoal(x, y){
   ctx.beginPath();
   ctx.lineWidth = 5;
-  ctx.strokeStyle = "gold";
+  ctx.strokeStyle = "red";
   ctx.moveTo(x*blockSize, y*blockSize);
   ctx.lineTo((x+1)*blockSize, (y+1)*blockSize);
   ctx.moveTo(x*blockSize, (y+1)*blockSize);
