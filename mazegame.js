@@ -15,7 +15,7 @@ var board = [
 ];
 var player = {
   x: 0,
-  y: 0,
+  y: 0
 };
 var width = canvas.width;
 var blockSize = width / board.length;
@@ -24,7 +24,7 @@ document.addEventListener("keydown",keyDownHandler);
 function drawWall(x, y) {
   ctx.beginPath();
   ctx.rect(x * blockSize, y * blockSize, blockSize, blockSize);
-  ctx.fillStyle = "blue";
+  ctx.fillStyle = "black";
   ctx.fill();
   ctx.closePath();
 }
