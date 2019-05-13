@@ -38,12 +38,21 @@ function drawPlayer(){
   ctx.closePath;
 }
 
-function canMove(x, y){
-  
+function canMove(x, y) {
+  if (y >= 0 &&
+     y < board.length &&
+     x >= 0 &&
+     x < board[y].length &&
+     board[y][x] != 1)
+  return true;
 }
 
 function keyDownHandler(e) {
-  
+  if (e.which == 38 && canMove(player.x, player.y-1)) player.y--;
+  else if (e.which == 40 && canMove(player.x, player.y+1)) player.y++;
+  else if (e.which == 37 && canMove(player.x-1, player.y)) player.x--;
+  else if (e.which == 39 && canMove(player.x+1, player.y)) player.x++;
+  draw();
 }
 
 function drawGoal(x, y){
@@ -59,6 +68,7 @@ function drawGoal(x, y){
 }
 
 function draw() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
   for (var y = 0; y < board.length; y++) {
     for (var x = 0; x < board[y].length; x++) {
       if (board[y][x] == 1) {
