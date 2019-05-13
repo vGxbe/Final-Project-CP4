@@ -33,7 +33,7 @@ function drawPlayer(){
   var half = blockSize / 2;
   ctx.beginPath;
   ctx.arc(player.x * blockSize + half, player.y * blockSize + half, half, 0, 2 * Math.PI);
-  ctx.fillStyle = "blue";
+  ctx.fillStyle = "orange";
   ctx.fill();
   ctx.closePath;
 }
