@@ -1,7 +1,6 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-//The game board 1 = walls, 0 = free space, -1 = the goal
-var board = [
+var board = [ //The game board 1 = walls, 0 = free space, -1 = the goal
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
   [1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
@@ -13,7 +12,7 @@ var board = [
   [1, 0, 1, 0, 1, 0, 0, 1, 1, 0],
   [-1, 0, 1, 0, 1, 1, 0, 0, 0, 0]
 ];
-var player = {
+var player = { //makes player always sart in specific area
   x: 0,
   y: 0
 };
@@ -21,7 +20,7 @@ var width = canvas.width;
 var blockSize = width / board.length;
 document.addEventListener("keydown",keyDownHandler);
 
-function drawWall(x, y) {
+function drawWall(x, y) { //creates walls for the maze
   ctx.beginPath();
   ctx.rect(x * blockSize, y * blockSize, blockSize, blockSize);
   ctx.fillStyle = "black";
@@ -29,7 +28,7 @@ function drawWall(x, y) {
   ctx.closePath();
 }
 
-function drawPlayer(){
+function drawPlayer(){ //creates player in the maze
   var half = blockSize / 2;
   ctx.beginPath;
   ctx.arc(player.x * blockSize + half, player.y * blockSize + half, half, 0, 2 * Math.PI);
@@ -55,7 +54,7 @@ function keyDownHandler(e) {
   draw();
 }
 
-function drawGoal(x, y){
+function drawGoal(x, y){ //creates goal which is the red X
   ctx.beginPath();
   ctx.lineWidth = 5;
   ctx.strokeStyle = "red";
