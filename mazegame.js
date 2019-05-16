@@ -1,6 +1,6 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var board = [ //The game board 1 = walls, 0 = free space, -1 = the goal
+var board = [ //The game board 1 = positions walls, 0 = all the free space, -1 = where the goal will be
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
   [1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
@@ -66,7 +66,7 @@ function drawGoal(x, y){ //creates goal which is the red X
   ctx.closePath();
 }
 
-function draw() { //positions where the player, walls and goal will be in the maze
+function draw() { //puts in place the positions where the player, walls and goal will be in the maze
   ctx.clearRect(0,0,canvas.width,canvas.height);
   for (var y = 0; y < board.length; y++) {
     for (var x = 0; x < board[y].length; x++) {
