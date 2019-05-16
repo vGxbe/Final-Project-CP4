@@ -12,7 +12,7 @@ var board = [ //The game board 1 = walls, 0 = free space, -1 = the goal
   [1, 0, 1, 0, 1, 0, 0, 1, 1, 0],
   [-1, 0, 1, 0, 1, 1, 0, 0, 0, 0]
 ];
-var player = { //makes player always sart in specific area
+var player = { //makes player always start in specific area
   x: 0,
   y: 0
 };
