@@ -66,7 +66,7 @@ function drawGoal(x, y){ //creates goal which is the red X
   ctx.closePath();
 }
 
-function draw() {
+function draw() { //positions where the player, walls and goal will be in the maze
   ctx.clearRect(0,0,canvas.width,canvas.height);
   for (var y = 0; y < board.length; y++) {
     for (var x = 0; x < board[y].length; x++) {
