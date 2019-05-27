@@ -19,7 +19,7 @@ var player = {
 };
 var width = canvas.width;
 var blockSize = width / board.length;
-var time = 60; //in second
+var time = 20; //in second
 document.addEventListener("keydown", keyDownHandler);
 
 function drawWall(x, y) {
