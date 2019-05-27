@@ -69,7 +69,7 @@ function canMove(x, y) {
 
 function winAlert(x, y) {
   if (board[y][x] == -1) {
-    alert("Congratulation! You Win!");
+    alert("How did you beat my game!?");
     clearInterval(a);
     return true;
   } else return true;
@@ -112,7 +112,7 @@ function timer() {
     alert("Game Over");
     document.location.assign(location);
   }
-  document.getElementById("showTimer").innerHTML = "Time remain: " + time + "s";
+  document.getElementById("showTimer").innerHTML = "Time Left: " + time + "s";
 }
 
 function drawMask() {
