@@ -1,6 +1,6 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-//The game board 1 = walls, 0 = free space, and -1 = the goal
+//The game board 1 = positions walls, 0 = all the free space, -1 = where the goal will be
 var board = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -13,7 +13,7 @@ var board = [
   [1, 0, 1, 0, 1, 0, 0, 1, 1, 0],
   [-1, 0, 1, 0, 1, 1, 0, 0, 0, 0]
 ];
-var player = {
+var player = { //makes player always start in specific area. Also defines how long the timer will be.
   x: 0,
   y: 0
 };
@@ -22,7 +22,7 @@ var blockSize = width / board.length;
 var time = 20; //in second
 document.addEventListener("keydown", keyDownHandler);
 
-function drawWall(x, y) {
+function drawWall(x, y) { //creates walls for the maze
   ctx.beginPath();
   ctx.rect(x * blockSize, y * blockSize, blockSize, blockSize);
   ctx.fillStyle = "black";
@@ -30,7 +30,7 @@ function drawWall(x, y) {
   ctx.closePath();
 }
 
-function drawGoal(x, y) {
+function drawGoal(x, y) { //creates goal which is the red X
   ctx.beginPath();
   ctx.lineWidth = 5;
   ctx.strokeStyle = "red";
@@ -42,7 +42,7 @@ function drawGoal(x, y) {
   ctx.closePath();
 }
 
-function drawPlayer() {
+function drawPlayer() { //creates player in the maze
   var half = blockSize / 2;
   ctx.beginPath();
   ctx.arc(
@@ -67,7 +67,7 @@ function canMove(x, y) {
   );
 }
 
-function winAlert(x, y) {
+function winAlert(x, y) { //when user reaches the goal, an alert will pop up saying you beat the maze.
   if (board[y][x] == -1) {
     alert("How did you beat my game!?");
     clearInterval(a);
@@ -75,7 +75,7 @@ function winAlert(x, y) {
   } else return true;
 }
 
-function keyDownHandler(e) {
+function keyDownHandler(e) { //allows user to move the player with the arrow keys
   if (time > 0 && board[player.y][player.x] != -1) {
     if (
       e.which == 38 &&
@@ -105,7 +105,7 @@ function keyDownHandler(e) {
   }
 }
 
-function timer() {
+function timer() { // creates the timer in the maze
   if (time != 0) {
     time--;
   } else {
@@ -115,7 +115,7 @@ function timer() {
   document.getElementById("showTimer").innerHTML = "Time Left: " + time + "s";
 }
 
-function drawMask() {
+function drawMask() { // this function makes the maze invisible except for where the player is located
   ctx.save();
   ctx.beginPath();
   ctx.arc(player.x * blockSize + blockSize / 2,
@@ -125,7 +125,7 @@ function drawMask() {
   ctx.clip();
 }
 
-function draw() {
+function draw() { //puts in place the positions where the player, walls and goal will be in the maze
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawMask();
   for (var y = 0; y < board.length; y++) {
