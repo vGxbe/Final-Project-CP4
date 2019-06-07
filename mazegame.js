@@ -1,7 +1,7 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 //The game board 1 = positions walls, 0 = all the free space, -1 = where the goal will be
-var board = [
+var board = [ // idea from http://jsfiddle.net/n8j1s/4y22135r/
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
   [1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
